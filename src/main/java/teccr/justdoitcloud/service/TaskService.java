@@ -70,6 +70,23 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
+    public Optional<Task> getTaskByUser(Long userId, Long taskId) {
+
+        Optional<Task> taskOpt = taskRepository.findById(taskId);
+
+        if(taskOpt.isEmpty()){
+            return Optional.empty();
+        }
+
+        Task task = taskOpt.get();
+
+        if(!task.getUserId().equals(userId)){
+            return Optional.empty();
+        }
+
+        return taskOpt;
+    }
+
     public Task updateTaskFields(Long id, Task updatedTask) {
         return taskRepository.findById(id)
                 .map(existingTask -> {
