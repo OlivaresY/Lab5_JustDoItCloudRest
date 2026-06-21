@@ -49,13 +49,13 @@ public class TasksController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
-        Optional<Task> taskOpt = taskService.getTaskById(id);
+    public ResponseEntity<Task> getTaskById(@PathVariable Long userId, @PathVariable Long id) {
+        Optional<Task> taskOpt = taskService.getTaskByUser(userId, id);
         return taskOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{id}")
-    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
+    public Task updateTask(@PathVariable Long id, @PathVariable Long userId, @RequestBody Task task) {
         return taskService.updateTaskFields(id, task);
     }
 

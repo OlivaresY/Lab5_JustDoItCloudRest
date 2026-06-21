@@ -101,6 +101,22 @@ public class TaskService {
                 .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
     }
 
+    public Task updateTaskForUser(long userId, Long taskId, Task updateTask){
+        Optional<Task> taskOpt = taskRepository.findById(taskId);
+
+        if (taskOpt.isEmpty()) {
+            throw new RuntimeException("Task not found");
+        }
+
+        Task task = taskOpt.get();
+
+        if (!task.getUserId().equals(userId)) {
+            throw new RuntimeException("Forbidden");
+        }
+
+        return updateTaskFields(taskId, updateTask);
+    }
+
     public void deleteTaskById(Long id) {
         Optional<Task> maybeTask = taskRepository.findById(id);
         if (maybeTask.isEmpty()) {
