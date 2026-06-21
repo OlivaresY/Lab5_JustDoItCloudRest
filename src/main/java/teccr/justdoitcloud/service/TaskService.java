@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import teccr.justdoitcloud.data.Task;
 import teccr.justdoitcloud.data.User;
+import teccr.justdoitcloud.exception.ForbiddenActionException;
+import teccr.justdoitcloud.exception.TaskNotFoundException;
 import teccr.justdoitcloud.repository.TaskRepository;
 import teccr.justdoitcloud.repository.UserRepository;
 import teccr.justdoitcloud.service.external.taskgenerator.TaskGenerator;
@@ -105,13 +107,13 @@ public class TaskService {
         Optional<Task> taskOpt = taskRepository.findById(taskId);
 
         if (taskOpt.isEmpty()) {
-            throw new RuntimeException("Task not found");
+            throw new TaskNotFoundException("Task not found"); // Provoca el 404 vacío
         }
 
         Task task = taskOpt.get();
 
         if (!task.getUserId().equals(userId)) {
-            throw new RuntimeException("Forbidden");
+            throw new ForbiddenActionException("Forbidden"); // Provoca el 403 vacío
         }
 
         return updateTaskFields(taskId, updateTask);

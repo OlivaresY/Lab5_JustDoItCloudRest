@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(TaskNotFoundException.class)
-    public ResponseEntity<String> handleNotFound(TaskNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    public ResponseEntity<Void> handleNotFound(TaskNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); //404
     }
 
     @ExceptionHandler(ForbiddenActionException.class)
-    public ResponseEntity<String> handleForbidden(ForbiddenActionException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+    public ResponseEntity<Void> handleForbidden(ForbiddenActionException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); //403
     }
 
     @ExceptionHandler(TaskGenerationException.class)
