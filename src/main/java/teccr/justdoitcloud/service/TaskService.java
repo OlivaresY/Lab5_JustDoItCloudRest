@@ -119,13 +119,18 @@ public class TaskService {
         return updateTaskFields(taskId, updateTask);
     }
 
-    public void deleteTaskById(Long id) {
-        Optional<Task> maybeTask = taskRepository.findById(id);
+    public void deleteTaskForUser(long userId, Long taskId) {
+        Optional<Task> maybeTask = taskRepository.findById(taskId);
+
         if (maybeTask.isEmpty()) {
-            throw new RuntimeException("Task not found with id: " + id);
+            throw new TaskNotFoundException("Task not found with id: " + taskId); // 404
         }
 
         Task task = maybeTask.get();
+
+        if (!task.getUserId().equals(userId)) {
+            throw new ForbiddenActionException("Forbidden"); // 403
+        }
 
         Optional<User> maybeUser = userRepository.findById(task.getUserId());
         maybeUser.ifPresent(user -> {
@@ -136,7 +141,7 @@ public class TaskService {
             }
         });
 
-        taskRepository.deleteById(id);
+        taskRepository.deleteById(taskId);
     }
 
 }
