@@ -8,7 +8,7 @@ import teccr.justdoitcloud.repository.TaskRepository;
 import teccr.justdoitcloud.repository.UserRepository;
 import teccr.justdoitcloud.service.external.taskgenerator.TaskGenerator;
 import teccr.justdoitcloud.service.internal.taskarchiver.TaskArchiver;
-
+import teccr.justdoitcloud.exception.TaskGenerationException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -50,11 +50,11 @@ public class TaskService {
     }
 
     public Task autogenerateTaskForUser(User user) {
-        // Pendiente: archivar la tarea en categoria "tasks-new" despues de creada
 
         Task task = taskGenerator.generateTask();
+
         if (task == null) {
-            throw new RuntimeException("No se pudo generar la tarea automáticamente");
+            throw new TaskGenerationException("No se pudo generar la tarea automáticamente");
         }
 
         task.setUserId(user.getId());

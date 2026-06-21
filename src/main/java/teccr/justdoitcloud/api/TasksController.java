@@ -55,8 +55,9 @@ public class TasksController {
     }
 
     @PatchMapping("/{id}")
-    public Task updateTask(@PathVariable Long id, @PathVariable Long userId, @RequestBody Task task) {
-        return taskService.updateTaskFields(id, task);
+    public ResponseEntity<Task> updateTask(@PathVariable Long userId, @PathVariable Long id, @RequestBody Task task) {
+        Task updatedTask = taskService.updateTaskForUser(userId, id, task);
+        return ResponseEntity.ok(updatedTask);
     }
 
     @DeleteMapping("/{id}")
