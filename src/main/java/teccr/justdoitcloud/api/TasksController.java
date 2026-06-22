@@ -65,4 +65,10 @@ public class TasksController {
     public void deleteTask(@PathVariable Long userId, @PathVariable Long id) {
         taskService.deleteTaskForUser(userId, id);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 }
