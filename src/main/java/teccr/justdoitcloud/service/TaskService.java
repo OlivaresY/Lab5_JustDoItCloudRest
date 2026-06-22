@@ -107,13 +107,13 @@ public class TaskService {
         Optional<Task> taskOpt = taskRepository.findById(taskId);
 
         if (taskOpt.isEmpty()) {
-            throw new TaskNotFoundException("Task not found"); // Provoca el 404 vacío
+            throw new TaskNotFoundException("Task not found"); // 404 vacío
         }
 
         Task task = taskOpt.get();
 
         if (!task.getUserId().equals(userId)) {
-            throw new ForbiddenActionException("Forbidden"); // Provoca el 403 vacío
+            throw new ForbiddenActionException("Forbidden"); // 403 vacío
         }
 
         return updateTaskFields(taskId, updateTask);
