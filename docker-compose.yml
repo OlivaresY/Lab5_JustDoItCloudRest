@@ -1,0 +1,14 @@
+services:
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-justdoit
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: justdoitdb
+      MYSQL_USER: justdoit
+      MYSQL_PASSWORD: justdoit
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d

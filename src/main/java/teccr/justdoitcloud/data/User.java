@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Table("user")
+@Table("users")
 public class User {
     @Id
     private Long id;
